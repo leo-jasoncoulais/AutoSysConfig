@@ -1,0 +1,32 @@
+#!/bin/bash
+
+GRUB_CONFIG=$(sudo find /boot -name "grub.cfg")
+PRODUCER=$(sudo dmidecode -s system-product-name)
+
+echo "Création de la configuration GRUB..."
+if [[ $GRUB_CONFIG != "" ]]; then
+
+	sudo cp -r grub_themes/custom /usr/share/grub/themes
+	cat grub_themes/default_grub | sudo tee -a /etc/default/grub
+
+	if [[ $PRODUCER == "Mac"* ]]; then
+		sudo cp /usr/share/grub/themes/custom/theme.txt.mac /usr/share/grub/themes/custom/theme.txt
+		sudo apt install refind efibootmgr -y
+		sudo refind-install
+		sudo sed -i 's/timeout 10/timeout -1/g' /boot/efi/EFI/refind/refind.conf
+		sudo sed -i 's/#default_selection 1/default_selection 3/g' /boot/efi/EFI/refind/refind.conf
+		sudo cp grub_themes/40_custom /etc/grub.d/40_custom
+
+		read -p "Quel est le disk EFI ? " efi_disk
+		sudo sed -i 's/DISK_EFI_TO_CHANGE/$efi_disk/g' /etc/grub.d/40_custom
+	else
+		sudo cp /usr/share/grub/themes/custom/theme.txt.classic /usr/share/grub/themes/custom/theme.txt
+	fi
+
+	for config in $GRUB_CONFIG; do
+		sudo grub-mkconfig -o $config;
+	done
+
+else
+	echo "Grub is not installed."
+fi

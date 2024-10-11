@@ -1,0 +1,3 @@
+GRUB_THEME=/usr/share/grub/themes/custom/theme.txt
+GRUB_BACKGROUND=/usr/share/grub/themes/custom/background_select.png
+GRUB_DISABLE_OS_PROBER=false
