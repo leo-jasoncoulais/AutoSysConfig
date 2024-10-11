@@ -3,6 +3,11 @@
 GRUB_CONFIG=$(sudo find /boot -name "grub.cfg")
 PRODUCER=$(sudo dmidecode -s system-product-name)
 
+sudo apt update && sudo apt upgrade -y
+
+echo "Installation de Plasma..."
+sudo apt install kde-plasma-desktop -y
+
 echo "Création de la configuration GRUB..."
 if [[ $GRUB_CONFIG != "" ]]; then
 
@@ -30,3 +35,4 @@ if [[ $GRUB_CONFIG != "" ]]; then
 else
 	echo "Grub is not installed."
 fi
+
