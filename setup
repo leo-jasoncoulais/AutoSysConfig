@@ -17,10 +17,10 @@ echo "Installation et configuration de Oh My Zsh..."
 	PLUGINS=$(ls zsh-plugins)
 
 	for plugin in $PLUGINS; do
-		sudo cp -r zsh-plugins/$plugin ~/.oh-my-zsh/plugins
+		cp -r zsh-plugins/$plugin ~/.oh-my-zsh/plugins
 	done
 
-	sed -i "s/plugins=(.*)/plugins=($PLUGINS)/g" ~/.zshrc
+	sed -i "s/plugins=(.*)/plugins=($PLUGINS git)/g" ~/.zshrc
 
 echo "Configuration de GRUB..."
 	if [[ $GRUB_CONFIG != "" ]]; then
