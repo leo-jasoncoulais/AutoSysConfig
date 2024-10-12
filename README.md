@@ -1,71 +1,109 @@
 
-# Script d'installation de Plasma et de configuration GRUB
+# Installation et Configuration Automatisée
 
-Ce script Bash permet d'installer l'environnement de bureau KDE Plasma, de configurer GRUB avec un thème personnalisé, et, dans le cas d'une machine Apple, d'installer et configurer `rEFInd` pour la gestion du démarrage EFI.
+Ce script permet d'installer et de configurer divers outils et environnements, notamment l'environnement de bureau Plasma, Oh My Zsh, et GRUB, ainsi que des ajustements pour les systèmes Mac.
 
-## Prérequis
+## Fonctionnalités du script
 
-Avant d'exécuter ce script, assurez-vous d'avoir :
-- Accès root ou sudo (le script nécessite des privilèges administratifs).
-- Un répertoire contenant les fichiers suivants :
-  - `grub_themes/custom/`: Répertoire contenant les fichiers du thème GRUB.
-  - `grub_themes/default_grub`: Fichier contenant les options GRUB par défaut.
-  - `grub_themes/40_custom`: Script personnalisé pour une entrée GRUB.
-  - `grub_themes/custom/theme.txt.mac`: Thème pour les systèmes Mac.
-  - `grub_themes/custom/theme.txt.classic`: Thème pour les autres systèmes.
+1. **Mise à jour et upgrade du système**  
+   Le script commence par mettre à jour la liste des paquets disponibles et par installer les mises à jour disponibles :
 
-## Fonctionnalités
-
-1. **Mise à jour du système** :
-   - Le script exécute `sudo apt update && sudo apt upgrade -y` pour mettre à jour les paquets du système.
-   
-2. **Installation de l'environnement KDE Plasma** :
-   - Plasma est installé via la commande `sudo apt install kde-plasma-desktop -y`.
-
-3. **Configuration GRUB** :
-   - Le script détecte la présence de fichiers `grub.cfg` dans `/boot`.
-   - Il copie les fichiers de thème vers le répertoire `/usr/share/grub/themes`.
-   - Les options par défaut sont ajoutées au fichier `/etc/default/grub`.
-
-4. **Configuration spécifique aux Mac** :
-   - Si le système est un Mac (détecté via `dmidecode`), le script installe et configure `rEFInd` pour gérer le démarrage EFI.
-   - Il modifie le fichier de configuration `refind.conf` pour désactiver le timeout et changer la sélection par défaut.
-   - L'utilisateur doit spécifier le disque EFI pour modifier le script personnalisé GRUB.
-   
-5. **Configuration pour les autres systèmes** :
-   - Si la machine n'est pas un Mac, le thème classique est appliqué.
-   
-6. **Mise à jour de la configuration GRUB** :
-   - Le script génère la configuration GRUB avec `grub-mkconfig` pour chaque fichier `grub.cfg` trouvé.
-
-## Instructions
-
-1. **Cloner ou copier le répertoire contenant le script et les fichiers requis**.
-2. **Donner les droits d'exécution au script** :
    ```bash
-   chmod +x nom_du_script.sh
-   ```
-3. **Exécuter le script** :
-   ```bash
-   ./nom_du_script.sh
+   sudo apt update && sudo apt upgrade -y
    ```
 
-Le script va :
-- Mettre à jour le système et installer KDE Plasma.
-- Copier les fichiers de thème dans le répertoire des thèmes GRUB.
-- Appliquer des modifications de configuration à `/etc/default/grub`.
-- S'il s'agit d'un Mac, installer et configurer `rEFInd` pour gérer EFI.
-- Demander à l'utilisateur de spécifier le disque EFI.
-- Générer la nouvelle configuration GRUB.
+2. **Installation de Curl**  
+   Curl est installé s'il n'est pas déjà présent :
 
-## Remarques
+   ```bash
+   sudo apt install curl -y
+   ```
 
-- Le script doit être exécuté avec des droits administratifs (`sudo`).
-- Si GRUB n'est pas installé, un message d'erreur sera affiché.
-- Sur Mac, le disque EFI doit être spécifié manuellement lorsque demandé.
+3. **Installation et configuration de KDE Plasma**  
+   L'environnement de bureau KDE Plasma est installé avec cette commande :
 
-## Compatibilité
+   ```bash
+   sudo apt install kde-plasma-desktop -y
+   ```
 
-- **Mac** : Ce script est compatible avec les systèmes Mac et utilise `rEFInd` pour gérer le démarrage EFI.
-- **Autres systèmes** : Compatible avec les machines où GRUB est installé et KDE Plasma peut être utilisé comme environnement de bureau.
+4. **Installation et configuration de Oh My Zsh**  
+   Le script installe Zsh et Oh My Zsh, puis modifie le shell par défaut pour Zsh :
+
+   ```bash
+   sudo apt install zsh
+   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+   sudo chsh -s $(which zsh)
+   ```
+
+   De plus, il copie tous les plugins trouvés dans le répertoire `zsh-plugins` vers le répertoire de plugins Oh My Zsh, et les configure dans le fichier `~/.zshrc` :
+
+   ```bash
+   PLUGINS=$(ls zsh-plugins)
+   for plugin in $PLUGINS; do
+       sudo cp -r zsh-plugins/$plugin ~/.oh-my-zsh/plugins
+   done
+   sed -i "s/plugins=(.*)/plugins=($PLUGINS)/g" ~/.zshrc
+   ```
+
+5. **Configuration de GRUB**  
+   Si GRUB est installé, le script trouve le fichier de configuration de GRUB (`grub.cfg`) et effectue une configuration personnalisée :
+
+   - Copie un thème GRUB personnalisé.
+   - Modifie `/etc/default/grub` pour y inclure la configuration par défaut spécifiée.
+   
+   Si le système est un Mac, le script installe et configure `refind` et adapte GRUB pour ce type de système en appliquant des configurations spécifiques.
+
+   ```bash
+   sudo refind-install
+   sudo cp grub_themes/40_custom /etc/grub.d/40_custom
+   read -p "Quel est le disk EFI ? " efi_disk
+   sudo sed -i 's/DISK_EFI_TO_CHANGE/$efi_disk/g' /etc/grub.d/40_custom
+   ```
+
+   Sinon, il applique une configuration classique :
+
+   ```bash
+   sudo cp /usr/share/grub/themes/custom/theme.txt.classic /usr/share/grub/themes/custom/theme.txt
+   ```
+
+   Enfin, le script régénère la configuration GRUB :
+
+   ```bash
+   for config in $GRUB_CONFIG; do
+       sudo grub-mkconfig -o $config;
+   done
+   ```
+
+6. **Messages d'alerte**  
+   Si GRUB n'est pas installé, le script informe l'utilisateur que GRUB n'est pas présent.
+
+## Instructions d'installation
+
+### Prérequis
+
+Avant de lancer ce script, assurez-vous que les outils suivants sont disponibles sur votre machine :
+
+- `sudo` pour les permissions administratives.
+- `curl` pour le téléchargement de scripts externes.
+- `dmidecode` pour la détection du producteur du système.
+
+### Exécution du script
+
+1. Clonez ou téléchargez ce dépôt sur votre machine.
+2. Assurez-vous que le script a les permissions d'exécution :
+
+   ```bash
+   chmod +x script.sh
+   ```
+
+3. Exécutez le script en tant qu'administrateur :
+
+   ```bash
+   sudo ./script.sh
+   ```
+
+## Avertissements
+
+- Ce script modifie des configurations système critiques telles que GRUB. Utilisez-le avec précaution, notamment sur les machines Mac où des ajustements EFI sont appliqués.
+- Vérifiez que les fichiers et chemins référencés existent bien (par exemple, les thèmes GRUB et les plugins Zsh).
 
