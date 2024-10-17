@@ -42,7 +42,7 @@ Ce script permet d'installer et de configurer divers outils et environnements, n
    for plugin in $PLUGINS; do
        sudo cp -r zsh-plugins/$plugin ~/.oh-my-zsh/plugins
    done
-   sed -i "s/plugins=(.*)/plugins=($PLUGINS)/g" ~/.zshrc
+   sed -i "s/plugins=(.*)/plugins=($PLUGINS git)/g" ~/.zshrc
    ```
 
 5. **Configuration de GRUB**  

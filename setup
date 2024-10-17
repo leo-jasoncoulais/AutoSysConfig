@@ -22,6 +22,38 @@ echo "Installation et configuration de Oh My Zsh..."
 
 	sed -i "s/plugins=(.*)/plugins=($PLUGINS git)/g" ~/.zshrc
 
+echo "Installation des logiciels tiers..."
+
+        USER_INPUT=""
+        SOFTWARES=$(ls "applications-install")
+
+	mkdir /tmp/installation-script
+
+        while [[ 0==0 ]]; do
+
+                i=1;
+
+                for script in $SOFTWARES; do
+                        echo "[$i] $script"
+                        i=$(($i+1));
+                done
+
+                read -p "[1-$i/a(ll)/c(ontinue)]: " USER_INPUT
+
+                if [[ $USER_INPUT == "c" ]]; then
+                        break
+
+                elif [[ $USER_INPUT == "a" ]]
+                        for script in $SOFTWARES; do
+                                sudo ./applications-install/$script;
+                        done
+                        continue
+                fi
+
+                sudo ./applications-install/$(echo $SOFTWARES | cut -d" " -f$USER_INPUT)
+
+        done
+
 echo "Configuration de GRUB..."
 	if [[ $GRUB_CONFIG != "" ]]; then
 
@@ -37,7 +69,7 @@ echo "Configuration de GRUB..."
 			sudo cp grub_themes/40_custom /etc/grub.d/40_custom
 
 			read -p "Quel est le disk EFI ? " efi_disk
-			sudo sed -i 's/DISK_EFI_TO_CHANGE/$efi_disk/g' /etc/grub.d/40_custom
+			sudo sed -i "s/DISK_EFI_TO_CHANGE/$efi_disk/g" /etc/grub.d/40_custom
 		else
 			sudo cp /usr/share/grub/themes/custom/theme.txt.classic /usr/share/grub/themes/custom/theme.txt
 		fi
@@ -49,3 +81,6 @@ echo "Configuration de GRUB..."
 	else
 		echo "Grub is not installed."
 	fi
+
+
+rm -rf /tmp/installation-script

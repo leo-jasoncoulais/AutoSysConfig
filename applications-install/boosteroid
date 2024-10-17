@@ -1,0 +1,23 @@
+#!/bin/bash
+
+cd /tmp/install-script
+
+if [[ $(which apt) != "apt not found" ]]; then
+
+	wget https://boosteroid.com/linux/installer/boosteroid-install-x64.deb
+	sudo apt -f install ./boosteroid-install-x64.deb
+
+elif [[ $(which dnf) != "dnf not found" ]]; then
+
+	wget https://boosteroid.com/linux/installer/boosteroid-install-x64.rpm
+	sudo dnf localinstall ./boosteroid-install-x64.rpm
+
+else
+
+	echo "Impossible d'installer Boosteroid."
+	cd
+	exit
+
+fi
+
+echo "Boosteroid installé avec succès !"

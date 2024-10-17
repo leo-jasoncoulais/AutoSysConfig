@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd /tmp/install-script
+
+wget https://discord.com/api/download?platform=linux&format=tar.gz -O discord.tar.gz
+sudo tar -xvzf discord.tar.gz -C /opt
+sudo ln -sf -v /opt/Discord/Discord /usr/bin/Discord
+sudo cp -r -v /opt/Discord/discord.desktop /usr/share/applications
+
+cd
+echo "Discord installé avec succès !"

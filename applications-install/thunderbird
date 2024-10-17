@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd /tmp/install-script
+
+wget https://download.mozilla.org/?product=thunderbird-128.3.1esr-SSL&os=linux64&lang=fr -O thunderbird.tar.bz2
+sudo tar xjf thunderbird-*.tar.bz2 -C /opt
+sudo ln -s /opt/thunderbird/thunderbird /usr/local/bin/thunderbird
+wget https://raw.githubusercontent.com/mozilla/sumo-kb/main/installing-thunderbird-linux/thunderbird.desktop -P /usr/local/share/applications
+
+cd
+echo "Thunderbird installé avec succès !"
