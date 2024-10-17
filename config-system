@@ -3,14 +3,60 @@
 GRUB_CONFIG=$(sudo find /boot -name "grub.cfg")
 PRODUCER=$(sudo dmidecode -s system-product-name)
 
-sudo apt update && sudo apt upgrade -y
-sudo apt install curl -y
+if [[ $(which apt) != "apt not found" ]]; then
+
+	sudo apt update && sudo apt upgrade -y
+	sudo apt install curl -y
+
+elif [[ $(which pacman) != "pacman not found" ]]; then
+
+	sudo pacman -Syyu
+	sudo pacman -S curl
+
+elif [[ $(which dnf) != "dnf not found" ]]; then
+
+	sudo dnf upgrade
+	sudo dnf install curl
+
+else
+
+	echo "Votre OS n'est pas compatible avec ce script pour le moment."
+	exit
+
+fi
 
 echo "Installation et configuration de Plasma..."
-	sudo apt install kde-plasma-desktop -y
+
+	if [[ $(which apt) != "apt not found" ]]; then
+
+        	sudo apt install kde-plasma-desktop -y
+
+	elif [[ $(which pacman) != "pacman not found" ]]; then
+
+        	sudo pacman -S plasma-desktop
+
+	elif [[ $(which dnf) != "dnf not found" ]]; then
+
+        	sudo dnf install @kde-desktop-environment
+
+	fi
 
 echo "Installation et configuration de Oh My Zsh..."
-	sudo apt install zsh
+
+	if [[ $(which apt) != "apt not found" ]]; then
+
+                sudo apt install zsh -y
+
+        elif [[ $(which pacman) != "pacman not found" ]]; then
+
+                sudo pacman -S zsh
+
+        elif [[ $(which dnf) != "dnf not found" ]]; then
+
+                sudo dnf install zsh
+
+        fi
+
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	sudo chsh -s $(which zsh)
 
@@ -61,15 +107,33 @@ echo "Configuration de GRUB..."
 		cat grub_themes/default_grub | sudo tee -a /etc/default/grub
 
 		if [[ $PRODUCER == "Mac"* ]]; then
-			sudo cp /usr/share/grub/themes/custom/theme.txt.mac /usr/share/grub/themes/custom/theme.txt
-			sudo apt install refind efibootmgr -y
+
+			if [[ $(which apt) != "apt not found" ]]; then
+
+	                	sudo apt install refind efibootmgr -y
+
+        		elif [[ $(which pacman) != "pacman not found" ]]; then
+
+                		sudo pacman -S refind efibootmgr
+
+        		elif [[ $(which dnf) != "dnf not found" ]]; then
+
+                		sudo dnf install https://sourceforge.net/projects/refind/files/0.14.2/refind-0.14.2-1.x86_64.rpm efibootmgr
+
+        		fi
+
 			sudo refind-install
+
+			sudo cp /usr/share/grub/themes/custom/theme.txt.mac /usr/share/grub/themes/custom/theme.txt
 			sudo sed -i 's/timeout 10/timeout -1/g' /boot/efi/EFI/refind/refind.conf
 			sudo sed -i 's/#default_selection 1/default_selection 3/g' /boot/efi/EFI/refind/refind.conf
 			sudo cp grub_themes/40_custom /etc/grub.d/40_custom
 
 			read -p "Quel est le disk EFI ? " efi_disk
 			sudo sed -i "s/DISK_EFI_TO_CHANGE/$efi_disk/g" /etc/grub.d/40_custom
+
+			echo "Pensez à changer l'ordre de boot avec efibootmgr."
+
 		else
 			sudo cp /usr/share/grub/themes/custom/theme.txt.classic /usr/share/grub/themes/custom/theme.txt
 		fi

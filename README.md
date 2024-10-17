@@ -1,120 +1,66 @@
 
-# Script d'installation et configuration automatisée
+# Installation et Configuration Automatique sous Linux
 
-Ce script permet d'installer et de configurer un environnement de bureau KDE Plasma, Oh My Zsh, des logiciels tiers, ainsi que de configurer GRUB avec un thème personnalisé. Il détecte également si la machine est un Mac pour configurer rEFInd en conséquence.
+## Description
+
+Ce script Bash est conçu pour installer et configurer l'environnement Plasma, le gestionnaire de shell Oh My Zsh, ainsi que d'autres logiciels tiers sur des systèmes Linux basés sur différents gestionnaires de paquets (apt, pacman, dnf). Il inclut également la configuration du gestionnaire de démarrage GRUB et du bootloader rEFInd pour les systèmes Mac.
+
+### Fonctionnalités
+- Mise à jour du système et installation de `curl`
+- Installation et configuration de l'environnement de bureau KDE Plasma
+- Installation et configuration de `Oh My Zsh` avec des plugins personnalisés
+- Installation de logiciels tiers à partir de scripts fournis
+- Configuration de GRUB et rEFInd pour Mac si applicable
 
 ## Prérequis
 
-- Système d'exploitation basé sur Ubuntu/Debian
-- Connexion Internet
-- Droits sudo
+- Systèmes Linux compatibles utilisant l'un des gestionnaires de paquets suivants : `apt`, `pacman`, ou `dnf`
+- Accès superutilisateur (`sudo`) pour l'installation de logiciels
+- Connexion internet pour télécharger les outils nécessaires
 
-## Fonctionnalités
+## Utilisation
 
-- Mise à jour du système et installation de dépendances
-- Installation et configuration de KDE Plasma
-- Installation et configuration d'Oh My Zsh avec des plugins personnalisés
-- Installation de logiciels tiers à partir d'un répertoire spécifique
-- Configuration de GRUB avec un thème personnalisé
-- Configuration spécifique pour les machines Mac avec rEFInd
+### 1. Exécution du script
 
-## Structure du script
-
-### 1. Mise à jour et installation des paquets
-
-Le script commence par mettre à jour le système et installer certains paquets comme `curl` et `zsh`.
+Exécutez le script avec les droits superutilisateur :
 
 ```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install curl -y
+sudo ./config-system
 ```
 
-### 2. Installation de KDE Plasma
+### 2. Mise à jour et installation des paquets requis
 
-KDE Plasma est installé via la commande suivante :
+Le script détecte automatiquement votre gestionnaire de paquets (`apt`, `pacman`, ou `dnf`) et met à jour le système avant d'installer les paquets nécessaires comme `curl`.
 
-```bash
-sudo apt install kde-plasma-desktop -y
-```
+### 3. Installation et configuration de KDE Plasma
 
-### 3. Installation et configuration d'Oh My Zsh
+- Si vous souhaitez installer l'environnement de bureau KDE Plasma, le script l'installera automatiquement en fonction de votre gestionnaire de paquets.
 
-Oh My Zsh est installé et configuré, avec les plugins disponibles dans le dossier `zsh-plugins`.
+### 4. Installation et configuration de Oh My Zsh
 
-```bash
-sudo apt install zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-sudo chsh -s $(which zsh)
-```
+- Le script installe `zsh` et configure automatiquement `Oh My Zsh`. Il copie également les plugins personnalisés disponibles dans le répertoire `zsh-plugins` vers le répertoire des plugins de `Oh My Zsh`.
+- Il met ensuite à jour le fichier de configuration `~/.zshrc` pour activer les plugins et inclure le plugin `git`.
 
-Les plugins sont copiés dans le répertoire d'Oh My Zsh et ajoutés dans le fichier `.zshrc` :
+### 5. Installation des logiciels tiers
 
-```bash
-for plugin in $PLUGINS; do
-    cp -r zsh-plugins/$plugin ~/.oh-my-zsh/plugins
-done
-```
+- Vous pouvez sélectionner les logiciels que vous souhaitez installer parmi ceux présents dans le répertoire `applications-install`. Le script vous propose une interface interactive où vous pouvez :
+  - Sélectionner un logiciel à installer en choisissant son numéro
+  - Installer tous les logiciels d'un coup en entrant "a"
+  - Continuer l'installation après avoir choisi les logiciels souhaités en entrant "c"
 
-### 4. Installation des logiciels tiers
+### 6. Configuration de GRUB et rEFInd (pour Mac)
 
-Les logiciels tiers situés dans le répertoire `applications-install` sont proposés pour installation. L'utilisateur peut choisir d'installer un logiciel spécifique, tous les logiciels, ou continuer sans installation supplémentaire.
+- Le script configure GRUB en copiant les thèmes et en modifiant les fichiers de configuration.
+- Pour les systèmes Mac, il installe et configure `rEFInd` pour gérer le démarrage EFI. Vous devrez fournir le nom du disque EFI lors de la configuration.
+- **Note importante** : Pensez à changer l'ordre de démarrage avec `efibootmgr` après l'installation de `rEFInd`.
 
-```bash
-mkdir /tmp/installation-script
-```
+## Structure du projet
 
-### 5. Configuration de GRUB
-
-Le script détecte le fichier de configuration GRUB (`grub.cfg`), copie un thème personnalisé dans le répertoire de GRUB et configure GRUB ou rEFInd pour les machines Mac.
-
-```bash
-GRUB_CONFIG=$(sudo find /boot -name "grub.cfg")
-PRODUCER=$(sudo dmidecode -s system-product-name)
-```
-
-Pour les machines Mac, rEFInd est installé et configuré avec des options spécifiques.
-
-```bash
-if [[ $PRODUCER == "Mac"* ]]; then
-    sudo apt install refind efibootmgr -y
-    sudo refind-install
-fi
-```
-
-### 6. Nettoyage
-
-Une fois toutes les installations et configurations terminées, le répertoire temporaire est supprimé :
-
-```bash
-rm -rf /tmp/installation-script
-```
-
-## Instructions d'utilisation
-
-1. Cloner ou copier ce script dans un répertoire de travail.
-2. Assurez-vous que le répertoire `zsh-plugins` contient les plugins Zsh que vous souhaitez installer.
-3. Assurez-vous que le répertoire `applications-install` contient les scripts d'installation des logiciels que vous voulez ajouter.
-4. Si vous souhaitez configurer GRUB avec un thème personnalisé, placez les fichiers dans le répertoire `grub_themes`.
-5. Exécutez le script avec les droits administrateur :
-
-```bash
-sudo ./nom_du_script.sh
-```
+- `applications-install/` : Contient les scripts d'installation des logiciels tiers.
+- `grub_themes/` : Contient les thèmes GRUB personnalisés.
+- `zsh-plugins/` : Contient les plugins personnalisés pour `Oh My Zsh`.
 
 ## Remarques
 
-- Ce script est conçu pour les systèmes basés sur Ubuntu/Debian.
-- Pour les utilisateurs de Mac, rEFInd sera installé pour gérer les démarrages.
-- Veuillez ajuster les chemins et options si nécessaire selon vos besoins.
-
-## Dépendances
-
-- `apt`
-- `curl`
-- `zsh`
-- `grub`
-- `refind` (pour les utilisateurs de Mac)
-
-## Avertissements
-
-- Ce script modifie des fichiers système (GRUB, rEFInd). Utilisez-le à vos risques et périls.
+- **Compatibilité OS** : Si votre système d'exploitation ne dispose pas de `apt`, `pacman`, ou `dnf`, le script ne pourra pas fonctionner et affichera un message d'erreur.
+- **Systèmes Mac** : Le script effectue des configurations spécifiques pour les systèmes Mac avec rEFInd. Assurez-vous de suivre les instructions concernant `efibootmgr`.
