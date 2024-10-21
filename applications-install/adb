@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ $(which apt) != "apt not found" ]]; then
+
+	sudo apt install adb
+
+elif [[ $(which dnf) != "dnf not found" ]]; then
+
+	sudo dnf install adb
+
+elif [[ $(which pacman) != "pacman not found" ]]; then
+
+	sudo pacman -S adb
+
+fi
+
+echo "ADB installé avec succès !"
