@@ -8,8 +8,7 @@ sudo pacman -S curl
 
 echo "Installation et configuration de Plasma..."
 
-        pacman -S --needed xorg sddm
-		pacman -S --needed plasma kde-applications
+        pacman -S xorg sddm plasma kde-applications
 
 echo "Installation et configuration de Oh My Zsh..."
 
