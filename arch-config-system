@@ -9,10 +9,12 @@ sudo pacman -S curl
 echo "Installation et configuration de Plasma..."
 
         sudo pacman -S plasma-desktop
+		echo "exec startplasma-x11" >> ~/.xinitrc
+		echo "startx" >> ~/.bashrc
 
 echo "Installation et configuration de Oh My Zsh..."
 
-        sudo pacman -S zsh
+    sudo pacman -S zsh
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	chsh -s $(which zsh)
 
