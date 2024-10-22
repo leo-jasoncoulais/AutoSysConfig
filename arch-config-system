@@ -26,7 +26,7 @@ echo "Installation et configuration de Oh My Zsh..."
 
 	sed -i -r 's/plugins=(.*)/plugins=($PLUGINS git)/g' ~/.zshrc
 
-	echo "startx" >> ~/.zshrc
+	echo 'if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then exec startx; fi' >> ~/.zprofile
 
 echo "Installation des logiciels tiers..."
 
