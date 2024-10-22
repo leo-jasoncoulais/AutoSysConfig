@@ -8,7 +8,9 @@ sudo pacman -S curl
 
 echo "Installation et configuration de Plasma..."
 
-        pacman -S xorg sddm plasma kde-applications
+    sudo pacman -S xorg sddm plasma kde-applications
+	sed -i 's/Current=/Current=breeze/g' /usr/lib/sddm/sddm.conf.d/default.conf
+	sudo systemctl enable sddm
 
 echo "Installation et configuration de Oh My Zsh..."
 
