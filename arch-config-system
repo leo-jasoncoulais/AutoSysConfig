@@ -8,10 +8,8 @@ sudo pacman -S curl
 
 echo "Installation et configuration de Plasma..."
 
-        sudo pacman -S xorg xorg-xinit
-		sudo pacman -R plasma
-		echo "export DESKTOP_SESSION=plasma" >> ~/.xinitrc
-		echo "exec startplasma-x11" >> ~/.xinitrc
+        pacman -S --needed xorg sddm
+		pacman -S --needed plasma kde-applications
 
 echo "Installation et configuration de Oh My Zsh..."
 
@@ -26,8 +24,6 @@ echo "Installation et configuration de Oh My Zsh..."
 	done
 
 	sed -i -r 's/plugins=(.*)/plugins=($PLUGINS git)/g' ~/.zshrc
-
-	echo 'if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then exec startx; fi' >> ~/.zprofile
 
 echo "Installation des logiciels tiers..."
 
