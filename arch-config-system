@@ -10,6 +10,7 @@ echo "Installation et configuration de Plasma..."
 
         sudo pacman -S xorg xorg-xinit
 		sudo pacman -R plasma
+		echo "export DESKTOP_SESSION=plasma" >> ~/.xinitrc
 		echo "exec startplasma-x11" >> ~/.xinitrc
 
 echo "Installation et configuration de Oh My Zsh..."
