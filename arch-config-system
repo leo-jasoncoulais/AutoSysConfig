@@ -8,7 +8,8 @@ sudo pacman -S curl
 
 echo "Installation et configuration de Plasma..."
 
-        sudo pacman -S plasma-desktop
+        sudo pacman -S xorg xorg-xinit
+		sudo pacman -R plasma
 		echo "exec startplasma-x11" >> ~/.xinitrc
 		echo "startx" >> ~/.bashrc
 
