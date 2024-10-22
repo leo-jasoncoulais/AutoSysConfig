@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /tmp/install-script
+cd temp
 
 wget https://download.mozilla.org/?product=thunderbird-128.3.1esr-SSL&os=linux64&lang=fr -O thunderbird.tar.bz2
 sudo tar xjf thunderbird-*.tar.bz2 -C /opt

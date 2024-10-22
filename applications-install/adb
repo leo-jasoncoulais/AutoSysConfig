@@ -1,16 +1,16 @@
 #!/bin/bash
 
-if [[ $(which apt) != "apt not found" ]]; then
+if [[ -n $(ls /etc | grep apt) ]]; then
 
 	sudo apt install adb
 
-elif [[ $(which dnf) != "dnf not found" ]]; then
+elif [[ -n $(ls /etc | grep dnf) ]]; then
 
 	sudo dnf install adb
 
-elif [[ $(which pacman) != "pacman not found" ]]; then
+elif [[ -n $(ls /etc | grep pacman) ]]; then
 
-	sudo pacman -S adb
+	sudo pacman -S android-tools
 
 fi
 

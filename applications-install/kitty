@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /tmp/installation-script
+cd temp
 
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /tmp/install-script
+cd temp
 
 wget https://discord.com/api/download?platform=linux&format=tar.gz -O discord.tar.gz
 sudo tar -xvzf discord.tar.gz -C /opt

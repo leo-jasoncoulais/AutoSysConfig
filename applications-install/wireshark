@@ -1,12 +1,12 @@
 #!/bin/bash
 
-cd /tmp/install-script
+cd temp
 
-if [[ $(which apt) != "apt not found" ]]; then
+if [[ -n $(ls /etc | grep apt) ]]; then
 
 	sudo apt install wireshark
 
-elif [[ $(which dnf) != "dnf not found" ]]; then
+elif [[ -n $(ls /etc | grep dnf) ]]; then
 
 	sudo dnf install wireshark wireshark-qt
 

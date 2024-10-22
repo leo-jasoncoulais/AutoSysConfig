@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd /tmp/install-script
+cd temp
 
-if [[ $(which apt) != "apt not found" ]]; then
+if [[ -n $(ls /etc | grep apt) ]]; then
 
 	echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
 	sudo apt-get install wget gpg
@@ -15,18 +15,18 @@ if [[ $(which apt) != "apt not found" ]]; then
 	sudo apt install code
 
 
-elif [[ $(which dnf) != "dnf not found" ]]; then
+elif [[ -n $(ls /etc | grep dnf) ]]; then
 
 	sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 	echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
 	dnf check-update
 	sudo dnf install code
 
-elif [[ $(which snap) != "snap not found" ]]; then
+elif [[ -n $(ls /etc | grep snap) ]]; then
 
 	sudo snap install --classic code
 
-elif [[ $(which zypper) != "zypper not found" ]]; then
+elif [[ -n $(ls /etc | grep zypper) ]]; then
 
 	sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 	echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" |sudo tee /etc/zypp/repos.d/vscode.repo > /dev/null
