@@ -11,7 +11,6 @@ echo "Installation et configuration de Plasma..."
         sudo pacman -S xorg xorg-xinit
 		sudo pacman -R plasma
 		echo "exec startplasma-x11" >> ~/.xinitrc
-		echo "startx" >> ~/.bashrc
 
 echo "Installation et configuration de Oh My Zsh..."
 
@@ -26,6 +25,8 @@ echo "Installation et configuration de Oh My Zsh..."
 	done
 
 	sed -i -r 's/plugins=(.*)/plugins=($PLUGINS git)/g' ~/.zshrc
+
+	echo "startx" >> ~/.zshrc
 
 echo "Installation des logiciels tiers..."
 
