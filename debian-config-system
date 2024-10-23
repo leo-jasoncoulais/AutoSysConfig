@@ -64,7 +64,7 @@ echo "Configuration de GRUB..."
 	if [[ $GRUB_CONFIG != "" ]]; then
 
 		sudo mkdir -p /usr/share/grub/themes/custom
-		sudo cp -r grub_themes/custom /usr/share/grub/themes/custom
+		sudo cp -r grub_themes/custom /usr/share/grub/themes/
 		cat grub_themes/default_grub | sudo tee -a /etc/default/grub
 
 		if [[ $PRODUCER == "Mac"* ]]; then
