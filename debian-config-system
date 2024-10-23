@@ -63,7 +63,7 @@ echo "Installation des logiciels tiers..."
 echo "Configuration de GRUB..."
 	if [[ $GRUB_CONFIG != "" ]]; then
 
-		sudo cp -r grub_themes/custom /usr/share/grub/themes
+		sudo cp -r grub_themes/custom /usr/share/grub/themes/custom
 		cat grub_themes/default_grub | sudo tee -a /etc/default/grub
 
 		if [[ $PRODUCER == "Mac"* ]]; then
