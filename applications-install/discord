@@ -6,9 +6,9 @@ wget -O discord.tar.gz https://discord.com/api/download?platform=linux\&format=t
 sudo tar -xvzf discord.tar.gz -C /opt
 sudo ln -sf -v /opt/Discord/Discord /usr/bin/Discord
 sudo cp -r -v /opt/Discord/discord.desktop /usr/share/applications
-sudo cp -r -v /opt/Discord/discord.png /usr/share/icons/hicolor/256x256
+sudo cp -r -v /opt/Discord/discord.png /usr/share/icons/hicolor/256x256/apps
 sudo sed -i -r 's/Exec=(.*)/Exec=\/usr\/bin\/Discord/' /usr/share/applications/discord.desktop
-sudo sed -i -r 's/Exec=(.*)/Exec=\/usr\/share\/icons\/hicolor\/256x256\/discord.png/' /usr/share/applications/discord.desktop
+sudo sed -i -r 's/Exec=(.*)/Exec=\/usr\/share\/icons\/hicolor\/256x256\/apps\/discord.png/' /usr/share/applications/discord.desktop
 
 cd
 echo "Discord installé avec succès !"
