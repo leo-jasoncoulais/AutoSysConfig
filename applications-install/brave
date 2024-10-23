@@ -15,13 +15,7 @@ elif [[ -n $(ls /etc | grep dnf) ]]; then
 	sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 	sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 	sudo dnf install brave-browser
-
-elif [[ -n $(ls /etc | grep zypper) ]]; then
-
-	sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-	sudo zypper addrepo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
-	sudo zypper install brave-browser
-
+	
 elif [[ -n $(ls /etc | grep flatpak) ]]; then
 
 	flatpak install brave

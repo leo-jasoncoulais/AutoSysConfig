@@ -22,18 +22,6 @@ elif [[ -n $(ls /etc | grep dnf) ]]; then
 	dnf check-update
 	sudo dnf install code
 
-elif [[ -n $(ls /etc | grep snap) ]]; then
-
-	sudo snap install --classic code
-
-elif [[ -n $(ls /etc | grep zypper) ]]; then
-
-	sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-	echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" |sudo tee /etc/zypp/repos.d/vscode.repo > /dev/null
-	sudo zypper refresh
-	sudo zypper install code
-
-
 else
 
 	echo "Impossible d'installer Visual Studio Code."
