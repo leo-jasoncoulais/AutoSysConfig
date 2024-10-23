@@ -52,7 +52,7 @@ echo "Installation des logiciels tiers..."
                         for script in $SOFTWARES; do
                                 sudo ./applications-install/$script;
                         done
-                        continue
+                        break
 		fi
 		
 		sudo ./applications-install/$(echo $SOFTWARES | cut -d" " -f$USER_INPUT)
