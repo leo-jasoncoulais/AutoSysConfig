@@ -20,4 +20,5 @@ else
 
 fi
 
+cd
 echo "Boosteroid installé avec succès !"

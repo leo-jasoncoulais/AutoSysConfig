@@ -4,15 +4,15 @@ cd temp
 
 if [[ -n $(ls /etc | grep apt) ]]; then
 
-	sudo apt install wireshark
+	sudo apt install wireshark -y
 
 elif [[ -n $(ls /etc | grep dnf) ]]; then
 
-	sudo dnf install wireshark wireshark-qt
+	sudo dnf install wireshark wireshark-qt -y
 
 elif [[ -n $(ls /etc | grep pacman) ]]; then
 
-	sudo pacman -S wireshark-qt
+	sudo pacman -S --noconfirm wireshark-qt
 
 else
 
@@ -22,4 +22,5 @@ else
 
 fi
 
+cd
 echo "Wireshark installé avec succès !"

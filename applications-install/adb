@@ -2,15 +2,15 @@
 
 if [[ -n $(ls /etc | grep apt) ]]; then
 
-	sudo apt install adb
+	sudo apt install adb -y
 
 elif [[ -n $(ls /etc | grep dnf) ]]; then
 
-	sudo dnf install adb
+	sudo dnf install adb -y
 
 elif [[ -n $(ls /etc | grep pacman) ]]; then
 
-	sudo pacman -S android-tools
+	sudo pacman -S --noconfirm android-tools
 
 fi
 
