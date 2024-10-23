@@ -93,4 +93,4 @@ echo "Configuration de GRUB..."
 	fi
 
 
-rm -rf /tmp/installation-script
+rm -rf temp
