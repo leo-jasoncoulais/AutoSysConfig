@@ -22,6 +22,10 @@ elif [[ -n $(ls /etc | grep zypper) ]]; then
 	sudo zypper addrepo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 	sudo zypper install brave-browser
 
+elif [[ -n $(ls /etc | grep flatpak) ]]; then
+
+	flatpak install brave
+
 else
 
     echo "Impossible d'installer Brave."
