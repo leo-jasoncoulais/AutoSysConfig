@@ -4,17 +4,17 @@ GRUB_CONFIG=$(sudo find /boot -name "grub.cfg")
 PRODUCER=$(sudo dmidecode -s system-product-name)
 
 sudo pacman -Syyu
-sudo pacman -S curl wget
+sudo pacman -S --noconfirm curl wget
 
 echo "Installation et configuration de Plasma..."
 
-    sudo pacman -S xorg sddm plasma konsole
+    sudo pacman -S --noconfirm xorg sddm plasma konsole
 	sudo sed -i 's/Current=/Current=breeze/' /usr/lib/sddm/sddm.conf.d/default.conf
 	sudo systemctl enable sddm
 
 echo "Installation et configuration de Oh My Zsh..."
 
-    sudo pacman -S zsh
+    sudo pacman -S --noconfirm zsh
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 	PLUGINS=$(ls zsh-plugins)
@@ -68,7 +68,7 @@ echo "Configuration de GRUB..."
 
 		if [[ $PRODUCER == "Mac"* ]]; then
 
-                	sudo pacman -S refind efibootmgr
+            sudo pacman -S --noconfirm refind efibootmgr
 			sudo refind-install
 
 			sudo cp /usr/share/grub/themes/custom/theme.txt.mac /usr/share/grub/themes/custom/theme.txt
