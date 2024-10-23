@@ -5,12 +5,12 @@ cd temp
 if [[ -n $(ls /etc | grep apt) ]]; then
 
 	wget https://boosteroid.com/linux/installer/boosteroid-install-x64.deb
-	sudo apt -f install ./boosteroid-install-x64.deb
+	sudo apt -f install ./boosteroid-install-x64.deb -y
 
 elif [[ -n $(ls /etc | grep dnf) ]]; then
 
 	wget https://boosteroid.com/linux/installer/boosteroid-install-x64.rpm
-	sudo dnf localinstall ./boosteroid-install-x64.rpm
+	sudo dnf localinstall ./boosteroid-install-x64.rpm -y
 
 else
 
