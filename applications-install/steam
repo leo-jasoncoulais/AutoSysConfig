@@ -4,9 +4,8 @@ cd temp
 
 if [[ -n $(ls /etc | grep apt) ]]; then
 
-    sudo add-apt-repository multiverse
-	sudo apt update && sudo apt upgrade -y
-	sudo apt install steam -y
+    wget -O steam.deb https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb
+	sudo apt install ./steam.deb -y
 
 elif [[ -n $(ls /etc | grep dnf) ]]; then
 
