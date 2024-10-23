@@ -22,6 +22,10 @@ elif [[ -n $(ls /etc | grep dnf) ]]; then
 	dnf check-update
 	sudo dnf install code
 
+elif [[ -n $(ls /etc | grep pacman) ]]; then
+
+	sudo pacman -S code
+
 else
 
 	echo "Impossible d'installer Visual Studio Code."
