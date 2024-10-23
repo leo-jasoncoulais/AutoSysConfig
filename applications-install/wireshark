@@ -10,6 +10,10 @@ elif [[ -n $(ls /etc | grep dnf) ]]; then
 
 	sudo dnf install wireshark wireshark-qt
 
+elif [[ -n $(ls /etc | grep pacman) ]]; then
+
+	sudo pacman -S wireshark-qt
+
 else
 
 	echo "Impossible d'installer Wireshark."
