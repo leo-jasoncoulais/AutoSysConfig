@@ -8,7 +8,7 @@ sudo pacman -S curl wget
 
 echo "Installation et configuration de Plasma..."
 
-    sudo pacman -S xorg sddm plasma kde-applications
+    sudo pacman -S xorg sddm plasma konsole
 	sudo sed -i 's/Current=/Current=breeze/' /usr/lib/sddm/sddm.conf.d/default.conf
 	sudo systemctl enable sddm
 
