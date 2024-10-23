@@ -2,7 +2,7 @@
 
 cd temp
 
-wget https://download.mozilla.org/?product=thunderbird-128.3.1esr-SSL&os=linux64&lang=fr -O thunderbird.tar.bz2
+wget -O thunderbird.tar.bz2 https://download.mozilla.org/?product=thunderbird-128.3.1esr-SSL\&os=linux64\&lang=fr
 sudo tar xjf thunderbird-*.tar.bz2 -C /opt
 sudo ln -s /opt/thunderbird/thunderbird /usr/local/bin/thunderbird
 wget https://raw.githubusercontent.com/mozilla/sumo-kb/main/installing-thunderbird-linux/thunderbird.desktop -P /usr/local/share/applications
