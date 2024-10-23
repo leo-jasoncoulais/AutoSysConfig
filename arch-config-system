@@ -4,7 +4,7 @@ GRUB_CONFIG=$(sudo find /boot -name "grub.cfg")
 PRODUCER=$(sudo dmidecode -s system-product-name)
 
 sudo pacman -Syyu
-sudo pacman -S curl
+sudo pacman -S curl wget
 
 echo "Installation et configuration de Plasma..."
 
