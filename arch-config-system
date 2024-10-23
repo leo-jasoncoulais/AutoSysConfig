@@ -31,7 +31,7 @@ echo "Installation des logiciels tiers..."
         USER_INPUT=""
         SOFTWARES=$(ls "applications-install")
 
-	mkdir /tmp/installation-script 2>/dev/null
+	mkdir temp 2>/dev/null
 
         while [[ 0==0 ]]; do
 
