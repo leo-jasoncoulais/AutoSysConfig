@@ -51,12 +51,12 @@ echo "Installation des logiciels tiers..."
                 if [[ $USER_INPUT == "a" ]]; then
                         for script in $SOFTWARES; do
 								echo "Installation de $script..."
-                                sudo ./applications-install/$script > /dev/null;
+                                ./applications-install/$script > /dev/null;
                         done
                         break
 		fi
 		
-		sudo ./applications-install/$(echo $SOFTWARES | cut -d" " -f$USER_INPUT)
+		./applications-install/$(echo $SOFTWARES | cut -d" " -f$USER_INPUT) > /dev/null
 
         done
 
